@@ -7,6 +7,7 @@
 #include "Ship.generated.h"
 
 class UCameraComponent;
+class UShipMovementComponent;
 
 UCLASS()
 class SHIPS_API AShip : public APawn {
@@ -18,12 +19,14 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Components")
 		UCameraComponent* m_Camera;
-
 public:
 	AShip();
 
 protected:
 	virtual void BeginPlay() override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UShipMovementComponent* m_ShipMovement;
 
 public:
 	virtual void Tick(float DeltaTime) override;

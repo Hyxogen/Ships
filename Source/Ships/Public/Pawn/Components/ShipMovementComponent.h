@@ -6,28 +6,26 @@
 #include "Components/ActorComponent.h"
 #include "ShipMovementComponent.generated.h"
 
+class UInputComponent;
+class USphereComponent;
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class SHIPS_API UShipMovementComponent : public UActorComponent
-{
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+class SHIPS_API UShipMovementComponent : public UActorComponent {
 	GENERATED_BODY()
 
-public:	
+public:
 	UShipMovementComponent();
 
-	UPROPERTY(VisibleAnywhere, Category = "Ship settings")
 	float m_MaxSpeed = 100.0f;
 
-	
+	UInputComponent* m_Input;
 
 protected:
 	virtual void BeginPlay() override;
 
-	void Init();
-
 	UPROPERTY(VisibleAnywhere)
-	float m_Throttle = 0.0f;
+		float m_Throttle = 0.0f;
 
-public:	
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;	
+public:
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 };

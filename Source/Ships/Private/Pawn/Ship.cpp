@@ -3,15 +3,18 @@
 
 #include "Public/Pawn/Ship.h"
 #include "Engine/Classes/Camera/CameraComponent.h"
+#include "Public/Pawn/Components/ShipMovementComponent.h"
 
 AShip::AShip() {
 	PrimaryActorTick.bCanEverTick = true;
 
 	m_StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Static Mesh"));
-	RootComponent = m_StaticMesh;
+	RootComponent = (USceneComponent*) m_StaticMesh;
 
 	m_Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Main Camera"));
 	m_Camera->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
+	m_ShipMovement = CreateDefaultSubobject<UShipMovementComponent>(TEXT("Movement Controller"));
 }
 
 void AShip::BeginPlay() {

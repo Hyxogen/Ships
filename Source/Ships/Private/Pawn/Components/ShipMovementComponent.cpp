@@ -3,17 +3,16 @@
 
 #include "Public/Pawn/Components/ShipMovementComponent.h"
 
+#include "Engine/Classes/Components/SphereComponent.h"
+
 UShipMovementComponent::UShipMovementComponent() {
 	PrimaryComponentTick.bCanEverTick = true;
-
 }
 
 void UShipMovementComponent::BeginPlay() {
 	Super::BeginPlay();
-	Init();
 }
 
 void UShipMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
-
