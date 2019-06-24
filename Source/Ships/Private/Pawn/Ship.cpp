@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Public/Pawn/Ship.h"
 #include "Engine/Classes/Camera/CameraComponent.h"
 #include "Public/Pawn/Components/ShipMovementComponent.h"
@@ -29,6 +28,5 @@ void AShip::Tick(float DeltaTime) {
 
 void AShip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	m_ShipMovement->m_Input = PlayerInputComponent;
 }
-
