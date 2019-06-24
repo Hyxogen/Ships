@@ -3,8 +3,6 @@
 
 #include "Public/Pawn/Components/ShipMovementComponent.h"
 
-#include "Engine/Classes/Components/SphereComponent.h"
-
 UShipMovementComponent::UShipMovementComponent() {
 	PrimaryComponentTick.bCanEverTick = true;
 }
