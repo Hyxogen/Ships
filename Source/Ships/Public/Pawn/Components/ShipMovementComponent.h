@@ -21,7 +21,13 @@ public:
 	float m_MaxSpeed = 100.0f;
 
 	UPROPERTY(EditAnywhere)
+	float m_MinSpeed = -5.0f;
+
+	UPROPERTY(EditAnywhere)
 	float m_Acceleration = 2.0f;
+
+	UPROPERTY(EditAnywhere)
+	float m_TurnSpeed = 1.0f;
 
 	UInputComponent* m_Input;
 
@@ -38,6 +44,9 @@ protected:
 	AActor* m_Actor;
 
 	void ForwardInput(float scale);
+	void RightInput(float scale);
+
+	float GetSpeedScale() const;
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 };

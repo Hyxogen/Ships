@@ -13,15 +13,14 @@ UShipMovementComponent::UShipMovementComponent() {
 void UShipMovementComponent::BeginPlay() {
 	Super::BeginPlay();
 	m_Input->BindAxis("Forward_Backwards", this, &UShipMovementComponent::ForwardInput);
+	m_Input->BindAxis("Left_Right", this, &UShipMovementComponent::RightInput);
 	m_Actor = GetOwner();
 }
 
 void UShipMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	m_CurrentSpeed = (m_Throttle / m_MaxThrotle) * m_MaxSpeed;
-	FString str = FString::SanitizeFloat(m_CurrentSpeed);
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *(m_Actor->GetActorForwardVector() * m_CurrentSpeed).ToString());
+	m_CurrentSpeed = GetSpeedScale();
 	m_Actor->SetActorLocation(m_Actor->GetTargetLocation() + (m_Actor->GetActorForwardVector() * m_CurrentSpeed));
 }
 
@@ -35,4 +34,36 @@ void UShipMovementComponent::ForwardInput(float scale) {
 		current = m_MinThrottle;
 
 	m_Throttle = current;
+}
+
+void UShipMovementComponent::RightInput(float scale) {
+	float trueSpeed = GetSpeedScale();
+	float deltaTime = FApp::GetDeltaTime();
+
+	FRotator rotator(0.0f, m_TurnSpeed * scale * deltaTime * (trueSpeed/m_MaxSpeed), 0.0f);
+	m_Actor->AddActorWorldRotation(rotator.Quaternion());
+}
+
+float UShipMovementComponent::GetSpeedScale() const {
+	float deltaTime = FApp::GetDeltaTime();
+	float designedSpeed = (m_Throttle / m_MaxThrotle) * m_MaxSpeed;
+	float trueSpeed = m_CurrentSpeed;
+
+	if (designedSpeed > trueSpeed) {
+		if ((trueSpeed + m_Acceleration * deltaTime) > m_MaxSpeed) {
+			trueSpeed = m_MaxSpeed;
+		}
+		else {
+			trueSpeed += m_Acceleration * deltaTime;
+		}
+	}
+	else if (designedSpeed < trueSpeed) {
+		if ((trueSpeed + -m_Acceleration * deltaTime) < m_MinSpeed) {
+			trueSpeed = m_MaxSpeed;
+		}
+		else {
+			trueSpeed += -m_Acceleration * deltaTime;
+		}
+	}
+	return trueSpeed;
 }
